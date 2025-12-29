@@ -6,193 +6,263 @@
     <title>ShadowTickets | The Future of Support</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --primary: #5865F2;
-            --secondary: #2f3136;
-            --bg: #090a10;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --accent: #7289da;
+            --secondary: #a0a8ff;
+            --bg: #05060a;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             background-color: var(--bg);
             color: white;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* Animated Nebula Background */
-        .nebula {
+        /* Particles Background */
+        #particles-js {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(88, 101, 242, 0.1), transparent 50%);
+            width: 100%;
+            height: 100%;
             z-index: -1;
-            filter: blur(80px);
-            animation: move 20s infinite alternate;
+            background: radial-gradient(circle at center, #111420 0%, #05060a 100%);
         }
 
-        @keyframes move {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(10%, 10%); }
-        }
-
-        /* Hero Section */
         section {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
+        /* Glassmorphism Hero Card */
         .hero-card {
             background: var(--card-bg);
-            padding: 60px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 80px 40px;
+            border-radius: 40px;
+            border: 1px solid var(--border);
             backdrop-filter: blur(20px);
             text-align: center;
-            max-width: 800px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            max-width: 900px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            transform-style: preserve-3d;
         }
 
         h1 {
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: clamp(3rem, 10vw, 5rem);
             margin-bottom: 20px;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            font-weight: 900;
+            letter-spacing: -2px;
+            background: linear-gradient(to right, #ffffff, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(88, 101, 242, 0.4));
         }
 
-        .btn-group {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
+        .hero-card p {
+            font-size: 1.2rem;
+            color: #8e9297;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
+        /* Buttons */
+        .btn-group { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        
         .btn {
-            padding: 16px 35px;
-            border-radius: 12px;
+            padding: 18px 45px;
+            border-radius: 15px;
             text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             border: none;
-            font-size: 1rem;
+            cursor: pointer;
         }
 
         .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(88, 101, 242, 0.4); }
+        .btn-primary:hover { 
+            transform: translateY(-8px) scale(1.05); 
+            box-shadow: 0 20px 40px rgba(88, 101, 242, 0.5); 
+        }
 
-        .btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.1); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .btn-secondary { background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); transform: translateY(-5px); }
 
-        /* Bot List Section */
-        #bot-list {
-            padding: 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+        /* Bot Grid Styling */
+        #bot-list h2 {
+            font-size: 3rem;
+            margin-bottom: 60px;
+            text-align: center;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            width: 100%;
+            max-width: 1300px;
         }
 
         .bot-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 30px;
-            border-radius: 20px;
-            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 30px;
+            transition: all 0.4s ease;
             position: relative;
+            overflow: hidden;
         }
 
-        .bot-card:hover { border-color: var(--primary); background: rgba(255,255,255,0.06); }
+        .bot-card:hover {
+            background: rgba(88, 101, 242, 0.05);
+            border-color: var(--primary);
+            transform: translateY(-15px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
 
-        .bot-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .bot-avatar { width: 50px; height: 50px; background: var(--primary); border-radius: 12px; display:flex; align-items:center; justify-content:center; font-weight:bold; }
+        .bot-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Bot Icons Styling */
+        .bot-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .bot-card:hover .bot-img { transform: scale(1.1) rotate(5deg); }
+
+        .rating { color: #ffcc00; letter-spacing: 2px; margin-bottom: 10px; display: block; font-size: 0.8rem; }
         
-        .rating { color: #ffcc00; font-size: 0.9rem; margin-bottom: 10px; display: block; }
-        .bot-desc { color: #b9bbbe; font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; }
+        .bot-desc {
+            color: #b9bbbe;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
 
-        .invite-small { font-size: 0.8rem; color: var(--primary); text-decoration: none; font-weight: bold; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 6px; transition: 0.3s; }
-        .invite-small:hover { background: var(--primary); color: white; }
+        .invite-small {
+            width: 100%;
+            text-align: center;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .invite-small:hover { background: var(--primary); }
 
     </style>
 </head>
 <body>
 
-    <div class="nebula"></div>
+    <div id="particles-js"></div>
 
     <section>
-        <div class="hero-card" data-tilt>
+        <div class="hero-card" data-tilt data-tilt-glare data-tilt-max-glare="0.1">
+            <i class="fa-solid fa-ticket-alt" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
             <h1>ShadowTickets</h1>
-            <p style="margin-bottom: 30px; color: #ccc;">Secure, lightning-fast, and professionally animated ticket handling for your Discord community.</p>
+            <p>Experience the next generation of server management. Fast, private, and fully automated support channels at your fingertips.</p>
             <div class="btn-group">
-                <a href="https://discord.com/oauth2/authorize?client_id=1455230446169231523&permissions=8&integration_type=0&scope=bot" class="btn btn-primary">Invite Bot</a>
-                <button onclick="scrollToBots()" class="btn btn-secondary">Best Discord Bots</button>
+                <a href="https://discord.com/oauth2/authorize?client_id=1455230446169231523&permissions=8&integration_type=0&scope=bot" class="btn btn-primary">
+                    <i class="fa-brands fa-discord"></i> Invite Bot
+                </a>
+                <button onclick="scrollToBots()" class="btn btn-secondary">
+                    <i class="fa-solid fa-list-ul"></i> Top Bots
+                </button>
             </div>
         </div>
     </section>
 
     <section id="bot-list">
-        <h2 style="font-size: 2.5rem; text-align: center;">Featured Discord Bots</h2>
-        <div class="grid" id="bot-grid">
-            </div>
+        <h2>Recommended Bots</h2>
+        <div class="grid" id="bot-grid"></div>
     </section>
 
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Bot Data
+        // Bot Data with real CDN icons
         const bots = [
-            { name: "MEE6", rating: "⭐⭐⭐⭐⭐", desc: "The most complete moderation, leveling, and economy bot. A must-have for large servers.", link: "https://mee6.xyz" },
-            { name: "Dyno", rating: "⭐⭐⭐⭐", desc: "A fully customizable moderation bot with a web dashboard, auto-mod, and music features.", link: "https://dyno.gg" },
-            { name: "Dank Memer", rating: "⭐⭐⭐⭐⭐", desc: "The ultimate meme and currency bot. Features a massive global economy game.", link: "https://dankmemer.lol" },
-            { name: "ProBot", rating: "⭐⭐⭐⭐", desc: "Multi-purpose bot featuring highly customizable welcome images, logs, and protection.", link: "https://probot.io" },
-            { name: "Carl-bot", rating: "⭐⭐⭐⭐⭐", desc: "Known for its reaction roles, advanced logging, and extremely powerful suggestion system.", link: "https://carl.gg" },
-            { name: "ShadowTickets", rating: "⭐⭐⭐⭐⭐", desc: "Your advanced, private ticketing solution with modal reason support and admin DMs.", link: "#" }
+            { name: "MEE6", rating: "⭐⭐⭐⭐⭐", desc: "The gold standard for Discord moderation, leveling, and custom commands.", icon: "https://cdn.discordapp.com/avatars/159985870458322944/b50adff099924dd5e6b78dd3e397e079.png", link: "https://mee6.xyz" },
+            { name: "Dyno", rating: "⭐⭐⭐⭐", desc: "A powerful, feature-rich moderation bot with a dedicated web dashboard.", icon: "https://cdn.discordapp.com/avatars/155149108183695360/0a86f788730953a56247071f4e1562b8.png", link: "https://dyno.gg" },
+            { name: "Dank Memer", rating: "⭐⭐⭐⭐⭐", desc: "The ultimate global economy and meme bot for entertaining your users.", icon: "https://cdn.discordapp.com/avatars/270904126974590976/12a970e7033502930ed6b7b25590919f.png", link: "https://dankmemer.lol" },
+            { name: "ProBot", rating: "⭐⭐⭐⭐", desc: "Advanced protection, logs, and beautiful image-based welcome messages.", icon: "https://cdn.discordapp.com/avatars/282859044593598464/739178347f7d98348b61e2a096c164a6.png", link: "https://probot.io" },
+            { name: "Carl-bot", rating: "⭐⭐⭐⭐⭐", desc: "Highly efficient reaction roles and the most powerful logging system.", icon: "https://cdn.discordapp.com/avatars/235148962103951360/49d03429381c81084b4238e46123e7ec.png", link: "https://carl.gg" },
+            { name: "ShadowTickets", rating: "⭐⭐⭐⭐⭐", desc: "That's me! The most private and secure ticket bot on the market.", icon: "https://cdn.discordapp.com/avatars/1455230446169231523/icon.png", link: "#" }
         ];
 
-        // Load Bots into Grid
         const grid = document.getElementById('bot-grid');
         bots.forEach(bot => {
             grid.innerHTML += `
                 <div class="bot-card">
                     <div class="bot-header">
-                        <div class="bot-avatar">${bot.name[0]}</div>
+                        <img src="${bot.icon}" class="bot-img" alt="${bot.name}" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
                         <h3>${bot.name}</h3>
                     </div>
-                    <span class="rating">${bot.rating}</span>
-                    <p class="bot-desc">${bot.desc}</p>
-                    <a href="${bot.link}" class="invite-small">Invite Bot</a>
+                    <div style="text-align: center;">
+                        <span class="rating">${bot.rating}</span>
+                        <p class="bot-desc">${bot.desc}</p>
+                        <a href="${bot.link}" class="invite-small">Invite ${bot.name}</a>
+                    </div>
                 </div>
             `;
         });
 
-        // Scroll Function
         function scrollToBots() {
             document.getElementById('bot-list').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Animations
-        ScrollReveal().reveal('.hero-card', { delay: 200, origin: 'top', distance: '50px' });
-        ScrollReveal().reveal('.bot-card', { interval: 100, origin: 'bottom', distance: '30px' });
+        // --- Animations ---
+        ScrollReveal().reveal('.hero-card', { delay: 300, scale: 0.8, duration: 1000 });
+        ScrollReveal().reveal('.bot-card', { interval: 150, origin: 'bottom', distance: '100px', duration: 1000 });
 
-        // Init Tilt
-        VanillaTilt.init(document.querySelectorAll(".hero-card"), {
-            max: 5,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.1
+        // Particles JS Config
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80 },
+                "color": { "value": "#5865F2" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.2 },
+                "size": { "value": 3 },
+                "line_linked": { "enable": true, "distance": 150, "color": "#5865F2", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 2 }
+            },
+            "interactivity": {
+                "events": { "onhover": { "enable": true, "mode": "grab" } }
+            }
         });
+
+        VanillaTilt.init(document.querySelectorAll(".hero-card"), { max: 5, speed: 400 });
     </script>
 </body>
 </html>
