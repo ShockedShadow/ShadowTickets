@@ -3,196 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShadowTickets | Advanced Discord Support</title>
+    <title>ShadowTickets | The Future of Support</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
     <style>
         :root {
             --primary: #5865F2;
-            --bg: #0f1218;
-            --accent: #a0a8ff;
+            --secondary: #2f3136;
+            --bg: #090a10;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --accent: #7289da;
         }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
             background-color: var(--bg);
-            color: #ffffff;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            overflow: hidden;
+            color: white;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Animated Nebula Background */
+        .nebula {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(88, 101, 242, 0.1), transparent 50%);
+            z-index: -1;
+            filter: blur(80px);
+            animation: move 20s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(10%, 10%); }
+        }
+
+        /* Hero Section */
+        section {
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
-        /* Animated Particle Background */
-        #canvas-dots {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-
-        .container {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.03);
+        .hero-card {
+            background: var(--card-bg);
             padding: 60px;
-            border-radius: 24px;
+            border-radius: 30px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-            transform-style: preserve-3d;
-            transform: perspective(1000px);
+            backdrop-filter: blur(20px);
+            text-align: center;
+            max-width: 800px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
         }
 
         h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to bottom, #ffffff, var(--primary));
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(88, 101, 242, 0.3));
-            animation: pulseGlow 3s infinite ease-in-out;
         }
 
-        p {
-            color: #b9bbbe;
-            font-size: 1.1rem;
-            margin-bottom: 40px;
-            max-width: 400px;
-            line-height: 1.6;
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .invite-btn {
-            position: relative;
-            background-color: var(--primary);
-            color: white;
-            text-decoration: none;
-            padding: 18px 50px;
+        .btn {
+            padding: 16px 35px;
             border-radius: 12px;
-            font-weight: 800;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            display: inline-block;
-            overflow: hidden;
-            border: none;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
             cursor: pointer;
+            border: none;
+            font-size: 1rem;
         }
 
-        .invite-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            background-color: #4752c4;
-            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.5);
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(88, 101, 242, 0.4); }
+
+        .btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+
+        /* Bot List Section */
+        #bot-list {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        /* Shining effect on button */
-        .invite-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform: rotate(45deg);
-            transition: 0.5s;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
         }
 
-        .invite-btn:hover::after {
-            left: 100%;
+        .bot-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 20px;
+            transition: 0.3s;
+            position: relative;
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { filter: drop-shadow(0 0 10px rgba(88, 101, 242, 0.2)); }
-            50% { filter: drop-shadow(0 0 25px rgba(88, 101, 242, 0.6)); }
-        }
+        .bot-card:hover { border-color: var(--primary); background: rgba(255,255,255,0.06); }
 
-        /* Mobile Optimization */
-        @media (max-width: 600px) {
-            .container { width: 80%; padding: 30px; }
-            h1 { font-size: 2.2rem; }
-        }
+        .bot-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .bot-avatar { width: 50px; height: 50px; background: var(--primary); border-radius: 12px; display:flex; align-items:center; justify-content:center; font-weight:bold; }
+        
+        .rating { color: #ffcc00; font-size: 0.9rem; margin-bottom: 10px; display: block; }
+        .bot-desc { color: #b9bbbe; font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; }
+
+        .invite-small { font-size: 0.8rem; color: var(--primary); text-decoration: none; font-weight: bold; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 6px; transition: 0.3s; }
+        .invite-small:hover { background: var(--primary); color: white; }
+
     </style>
 </head>
 <body>
 
-    <canvas id="canvas-dots"></canvas>
+    <div class="nebula"></div>
 
-    <div class="container" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
-        <h1>ShadowTickets</h1>
-        <p>The most advanced, secure, and interactive ticket system for Discord communities.</p>
-        <a href="https://discord.com/oauth2/authorize?client_id=1455230446169231523&permissions=8&integration_type=0&scope=bot" class="invite-btn">
-            Invite to Server
-        </a>
-    </div>
+    <section>
+        <div class="hero-card" data-tilt>
+            <h1>ShadowTickets</h1>
+            <p style="margin-bottom: 30px; color: #ccc;">Secure, lightning-fast, and professionally animated ticket handling for your Discord community.</p>
+            <div class="btn-group">
+                <a href="https://discord.com/oauth2/authorize?client_id=1455230446169231523&permissions=8&integration_type=0&scope=bot" class="btn btn-primary">Invite Bot</a>
+                <button onclick="scrollToBots()" class="btn btn-secondary">Best Discord Bots</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="bot-list">
+        <h2 style="font-size: 2.5rem; text-align: center;">Featured Discord Bots</h2>
+        <div class="grid" id="bot-grid">
+            </div>
+    </section>
 
     <script>
-        // --- Particle Background Script ---
-        const canvas = document.getElementById('canvas-dots');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
+        // Bot Data
+        const bots = [
+            { name: "MEE6", rating: "⭐⭐⭐⭐⭐", desc: "The most complete moderation, leveling, and economy bot. A must-have for large servers.", link: "https://mee6.xyz" },
+            { name: "Dyno", rating: "⭐⭐⭐⭐", desc: "A fully customizable moderation bot with a web dashboard, auto-mod, and music features.", link: "https://dyno.gg" },
+            { name: "Dank Memer", rating: "⭐⭐⭐⭐⭐", desc: "The ultimate meme and currency bot. Features a massive global economy game.", link: "https://dankmemer.lol" },
+            { name: "ProBot", rating: "⭐⭐⭐⭐", desc: "Multi-purpose bot featuring highly customizable welcome images, logs, and protection.", link: "https://probot.io" },
+            { name: "Carl-bot", rating: "⭐⭐⭐⭐⭐", desc: "Known for its reaction roles, advanced logging, and extremely powerful suggestion system.", link: "https://carl.gg" },
+            { name: "ShadowTickets", rating: "⭐⭐⭐⭐⭐", desc: "Your advanced, private ticketing solution with modal reason support and admin DMs.", link: "#" }
+        ];
 
-        function initCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        // Load Bots into Grid
+        const grid = document.getElementById('bot-grid');
+        bots.forEach(bot => {
+            grid.innerHTML += `
+                <div class="bot-card">
+                    <div class="bot-header">
+                        <div class="bot-avatar">${bot.name[0]}</div>
+                        <h3>${bot.name}</h3>
+                    </div>
+                    <span class="rating">${bot.rating}</span>
+                    <p class="bot-desc">${bot.desc}</p>
+                    <a href="${bot.link}" class="invite-small">Invite Bot</a>
+                </div>
+            `;
+        });
+
+        // Scroll Function
+        function scrollToBots() {
+            document.getElementById('bot-list').scrollIntoView({ behavior: 'smooth' });
         }
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = Math.random() * 1 - 0.5;
-                this.speedY = Math.random() * 1 - 0.5;
-                this.opacity = Math.random() * 0.5 + 0.2;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = `rgba(88, 101, 242, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
+        // Animations
+        ScrollReveal().reveal('.hero-card', { delay: 200, origin: 'top', distance: '50px' });
+        ScrollReveal().reveal('.bot-card', { interval: 100, origin: 'bottom', distance: '30px' });
 
-        function createParticles() {
-            for (let i = 0; i < 100; i++) {
-                particles.push(new Particle());
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animate);
-        }
-
-        window.addEventListener('resize', initCanvas);
-        initCanvas();
-        createParticles();
-        animate();
-
-        // Initialize 3D Tilt
-        VanillaTilt.init(document.querySelector(".container"), {
-            max: 10,
+        // Init Tilt
+        VanillaTilt.init(document.querySelectorAll(".hero-card"), {
+            max: 5,
             speed: 400,
             glare: true,
-            "max-glare": 0.3,
+            "max-glare": 0.1
         });
     </script>
 </body>
