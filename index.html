@@ -148,14 +148,18 @@
         .bot-img {
             width: 90px;
             height: 90px;
-            border-radius: 25px;
+            border-radius: 50%; /* Circle icons like Discord */
             margin-bottom: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            border: 2px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s ease;
+            border: 3px solid var(--primary);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            object-fit: cover;
         }
 
-        .bot-card:hover .bot-img { transform: scale(1.1) rotate(5deg); }
+        .bot-card:hover .bot-img { 
+            transform: scale(1.1); 
+            border-color: #ffffff;
+        }
 
         .rating { color: #ffcc00; letter-spacing: 2px; margin-bottom: 10px; display: block; font-size: 0.8rem; }
         
@@ -190,35 +194,71 @@
 
     <section>
         <div class="hero-card" data-tilt data-tilt-glare data-tilt-max-glare="0.1">
-            <i class="fa-solid fa-ticket-alt" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+            <i class="fa-solid fa-bolt-lightning" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
             <h1>ShadowTickets</h1>
-            <p>Experience the next generation of server management. Fast, private, and fully automated support channels at your fingertips.</p>
+            <p>Elevate your community with the fastest, most reliable ticketing system. Secure, private, and fully interactive.</p>
             <div class="btn-group">
                 <a href="https://discord.com/oauth2/authorize?client_id=1455230446169231523&permissions=8&integration_type=0&scope=bot" class="btn btn-primary">
                     <i class="fa-brands fa-discord"></i> Invite Bot
                 </a>
                 <button onclick="scrollToBots()" class="btn btn-secondary">
-                    <i class="fa-solid fa-list-ul"></i> Top Bots
+                    <i class="fa-solid fa-robot"></i> Best Bots
                 </button>
             </div>
         </div>
     </section>
 
     <section id="bot-list">
-        <h2>Recommended Bots</h2>
+        <h2>Top Rated Discord Bots</h2>
         <div class="grid" id="bot-grid"></div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Bot Data with real CDN icons
+        // Bot Data with official Avatar CDN links
         const bots = [
-            { name: "MEE6", rating: "⭐⭐⭐⭐⭐", desc: "The gold standard for Discord moderation, leveling, and custom commands.", icon: "https://cdn.discordapp.com/avatars/159985870458322944/b50adff099924dd5e6b78dd3e397e079.png", link: "https://mee6.xyz" },
-            { name: "Dyno", rating: "⭐⭐⭐⭐", desc: "A powerful, feature-rich moderation bot with a dedicated web dashboard.", icon: "https://cdn.discordapp.com/avatars/155149108183695360/0a86f788730953a56247071f4e1562b8.png", link: "https://dyno.gg" },
-            { name: "Dank Memer", rating: "⭐⭐⭐⭐⭐", desc: "The ultimate global economy and meme bot for entertaining your users.", icon: "https://cdn.discordapp.com/avatars/270904126974590976/12a970e7033502930ed6b7b25590919f.png", link: "https://dankmemer.lol" },
-            { name: "ProBot", rating: "⭐⭐⭐⭐", desc: "Advanced protection, logs, and beautiful image-based welcome messages.", icon: "https://cdn.discordapp.com/avatars/282859044593598464/739178347f7d98348b61e2a096c164a6.png", link: "https://probot.io" },
-            { name: "Carl-bot", rating: "⭐⭐⭐⭐⭐", desc: "Highly efficient reaction roles and the most powerful logging system.", icon: "https://cdn.discordapp.com/avatars/235148962103951360/49d03429381c81084b4238e46123e7ec.png", link: "https://carl.gg" },
-            { name: "ShadowTickets", rating: "⭐⭐⭐⭐⭐", desc: "That's me! The most private and secure ticket bot on the market.", icon: "https://cdn.discordapp.com/avatars/1455230446169231523/icon.png", link: "#" }
+            { 
+                name: "MEE6", 
+                rating: "⭐⭐⭐⭐⭐", 
+                desc: "The most famous Discord bot. Handles everything from leveling to auto-moderation.", 
+                icon: "https://cdn.discordapp.com/avatars/159985870458322944/b50adff099924dd5e6b78dd3e397e079.webp", 
+                link: "https://mee6.xyz" 
+            },
+            { 
+                name: "Dyno", 
+                rating: "⭐⭐⭐⭐", 
+                desc: "A powerful moderation bot with custom commands and a massive web dashboard.", 
+                icon: "https://cdn.discordapp.com/avatars/155149108183695360/0a86f788730953a56247071f4e1562b8.webp", 
+                link: "https://dyno.gg" 
+            },
+            { 
+                name: "Dank Memer", 
+                rating: "⭐⭐⭐⭐⭐", 
+                desc: "Focuses on fun! Global currency games, memes, and an huge economy system.", 
+                icon: "https://cdn.discordapp.com/avatars/270904126974590976/12a970e7033502930ed6b7b25590919f.webp", 
+                link: "https://dankmemer.lol" 
+            },
+            { 
+                name: "Carl-bot", 
+                rating: "⭐⭐⭐⭐⭐", 
+                desc: "Best for reaction roles, custom tags, and high-detail logging for moderators.", 
+                icon: "https://cdn.discordapp.com/avatars/235148962103951360/49d03429381c81084b4238e46123e7ec.webp", 
+                link: "https://carl.gg" 
+            },
+            { 
+                name: "ProBot", 
+                rating: "⭐⭐⭐⭐", 
+                desc: "Multi-purpose bot for welcome images, level system, and server protection.", 
+                icon: "https://cdn.discordapp.com/avatars/282859044593598464/739178347f7d98348b61e2a096c164a6.webp", 
+                link: "https://probot.io" 
+            },
+            { 
+                name: "ShadowTickets", 
+                rating: "⭐⭐⭐⭐⭐", 
+                desc: "That's us! We provide the sleekest, most secure ticketing solution for Discord.", 
+                icon: "https://cdn.discordapp.com/embed/avatars/2.png", // Replace this with your actual bot avatar URL when ready!
+                link: "#" 
+            }
         ];
 
         const grid = document.getElementById('bot-grid');
@@ -249,13 +289,13 @@
         // Particles JS Config
         particlesJS("particles-js", {
             "particles": {
-                "number": { "value": 80 },
+                "number": { "value": 100 },
                 "color": { "value": "#5865F2" },
                 "shape": { "type": "circle" },
-                "opacity": { "value": 0.2 },
+                "opacity": { "value": 0.3 },
                 "size": { "value": 3 },
                 "line_linked": { "enable": true, "distance": 150, "color": "#5865F2", "opacity": 0.1, "width": 1 },
-                "move": { "enable": true, "speed": 2 }
+                "move": { "enable": true, "speed": 1.5 }
             },
             "interactivity": {
                 "events": { "onhover": { "enable": true, "mode": "grab" } }
